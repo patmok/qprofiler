@@ -46,12 +46,12 @@ profile:{[f;a]
 stub:";.p.time,:.z.p;"; / append this for timing
 
 tag:{[f]
- f:-4!string f;
- i:min 2 1 1>f{sums(-). x~\:/:1#'y}/:("{}";"[]";"()"); / indices to ignore brackets
- f:raze f@[;;,;stub]/where i&f~\:1#";";                / append timing stub
- if[$[null i:last count[stub]+f ss stub;1;not all(-1_i _f)in" \t\n"];
+  f:-4!string f;
+  i:min 2 1 1>f{sums(-). x~\:/:1#'y}/:("{}";"[]";"()"); / indices to ignore brackets
+  f:raze f@[;;,;stub]/where i&f~\:1#";";                / append timing stub
+  if[$[null i:last count[stub]+f ss stub;1;not all(-1_i _f)in" \t\n"];
     f:(-1_f),stub,"}"];                                / handle ...} without ;
- :get f;
+  :get f;
  };
 
 run:{[f;a]
@@ -62,7 +62,7 @@ run:{[f;a]
 
 disp:{[f;t]
   r:update time:1_deltas t til 1+count fn from([]fn:stub vs string f);
-  r:update time:0D from r where all each fn in\:"\t\n }"; / handle "empty" lines
-  :update`time$0^time,pct:0^100*time%sum time from r;     / time easier to read?
+  r:update time:0D from r where all each fn in\:"\t\n }";      / handle "empty" lines
+  :update trim fn,`time$0^time,pct:0^100*time%sum time from r; / time easier to read?
  };
 \d .
